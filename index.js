@@ -1,11 +1,11 @@
-const Mocha = require('mocha')
+const Mocha = require('mocha');
 const fs = require('fs');
 const path = require('path');
 const chance = require('chance');
 const argv = require('minimist')(process.argv.slice(2));
 const _ = require('lodash');
 
-const totalRuns = argv.runs || 5;
+const totalRuns = argv.runs || 100;
 const testDir = argv.dir || '.';
 
 const isTestFile = (fileName) => {
@@ -48,9 +48,28 @@ allTestFiles.forEach(function(file) {
 let numRuns = 0;
 const testFailures = {};
 
+const resetTests = () => {
+    purge(allTestFiles);
+    mocha.suite = mocha.suite.clone();
+    mocha.suite.ctx = new Mocha.Context();
+    mocha.ui("bdd");
+    mocha.files = allTestFiles;
+};
+
+const purge = function (allFiles) {
+    allFiles.forEach(file => {
+        delete require.cache[file];
+    });
+};
+
 const runTests = () => {
     return new Promise((resolve, reject) => {
         let numRunFailures = 0;
+
+        if (numRuns > 0) {
+            // TODO: figure out how to reset latest mocha
+            //resetTests();
+        }
 
         return mocha.run()
             .on('fail', function(test, err) {
@@ -80,8 +99,12 @@ console.log(`Starting ${totalRuns} test runs...`);
 
 return runTests().then(() => {
     console.log('Finished all runs!');
-    console.log('Tests that failed:');
-    _.each(testFailures, (value, key) => {
-        console.log(`${key}, failures: ${value.numFailures}`);
-    });
+    if (Object.keys(testFailures).length) {
+        console.log('Tests that failed:');
+        _.each(testFailures, (value, key) => {
+            console.log(`${key}, failures: ${value.numFailures}`);
+        });
+    } else {
+        console.log('No failures!');
+    }
 });
