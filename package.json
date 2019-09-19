@@ -1,0 +1,16 @@
+{
+  "name": "mocha-flaky-test-finder",
+  "version": "0.0.1",
+  "description": "A package to help find flaky mocha tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mocha",
+    "flaky",
+    "test"
+  ],
+  "author": "Dylan Stankievech",
+  "license": "ISC"
+}
