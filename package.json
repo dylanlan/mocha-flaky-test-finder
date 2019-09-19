@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "A package to help find flaky mocha tests",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dylanlan/mocha-flaky-test-finder.git"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
