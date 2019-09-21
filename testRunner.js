@@ -36,30 +36,13 @@ const getTestFiles = (directory) => {
 
 const allTestFiles = getTestFiles(testDir);
 
-const mocha = new Mocha({
-    reporter: function () {
-        //avoid logs
-    },
-});
-
-allTestFiles.forEach(function(file) {
-    mocha.addFile(file);
-});
-
 let numRuns = 0;
 const testFailures = {};
 
-const resetTests = () => {
-    purge(allTestFiles);
-    mocha.suite = mocha.suite.clone();
-    mocha.suite.ctx = new Mocha.Context();
-    mocha.ui("bdd");
-    mocha.files = allTestFiles;
-};
-
-const purge = function (allFiles) {
-    allFiles.forEach(file => {
-        delete require.cache[file];
+const resetTests = (mocha) => {
+    mocha.suite.suites = [];
+    allTestFiles.forEach(file => {
+        delete require.cache[require.resolve(path.join(__dirname, file))];
     });
 };
 
@@ -67,9 +50,18 @@ exports.runTests = (testFailures = {}) => {
     return new Promise((resolve, reject) => {
         let numRunFailures = 0;
 
+        const mocha = new Mocha({
+            reporter: function () {
+                //avoid logs
+            },
+        });
+        
+        allTestFiles.forEach(function(file) {
+            mocha.addFile(file);
+        });
+
         if (numRuns > 0) {
-            // TODO: figure out how to reset latest mocha
-            //resetTests();
+            resetTests(mocha);
         } else {
             console.log(`Starting ${totalRuns} test runs...`);
         }
