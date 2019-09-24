@@ -1,9 +1,14 @@
+#!/usr/bin/env node
 'use strict';
 
 const _ = require('lodash');
-const { runTests } = require('./testRunner');
+const argv = require('minimist')(process.argv.slice(2));
+const { findFlakyTests } = require('./testRunner');
 
-return runTests().then(testFailures => {
+const totalRuns = argv.runs || 100;
+const testDir = argv.dir || '.';
+
+return findFlakyTests(testDir, totalRuns).then(testFailures => {
     console.log('Finished all runs!');
     if (Object.keys(testFailures).length) {
         console.log('Tests that failed:');
