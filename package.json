@@ -1,6 +1,6 @@
 {
   "name": "mocha-flaky-test-finder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A package to help find flaky mocha tests",
   "main": "cli.js",
   "repository": {
