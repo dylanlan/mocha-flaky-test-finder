@@ -3,10 +3,7 @@
   "version": "0.0.2",
   "description": "A package to help find flaky mocha tests",
   "main": "cli.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Dylanlan/mocha-flaky-test-finder.git"
-  },
+  "repository": "https://github.com/Dylanlan/mocha-flaky-test-finder",
   "bin": {
     "flaky-test-finder": "./cli.js"
   },
