@@ -1,5 +1,7 @@
-Mocha Flaky Test Finder
+[DEPRECATED] Mocha Flaky Test Finder
 ==================
+
+This project has been deprecated in favour of: https://github.com/Dylanlan/mocha-bad-test-finder
 
 Have some tests that decide to fail once every so often?
 
